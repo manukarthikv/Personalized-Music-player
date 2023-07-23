@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        } 
+
+        .parallax-section {
+            height: 100vh;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .parallax-section:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: -1;
+        }
+
+        .parallax-section .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #5c0000;
+            opacity: 0;
+            animation: fadeIn 2s ease-in-out forwards;
+        }
+
+        .parallax-section .content h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(148, 0, 0, 0.5);
+        }
+
+        .parallax-section .content p {
+            font-size: 24px;
+            text-shadow: 2px 2px 4px rgba(99, 0, 0, 0.432);
+        }
+
+        .navigation {
+            background-color: #333;
+            padding: 20px;
+        }
+
+        .navigation ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .navigation ul li {
+            margin: 0 10px;
+        }
+
+        .navigation ul li a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .navigation ul li a i {
+            font-size: 24px;
+        }
+
+        .navigation ul li a:hover {
+            color: #050505;
+        }
+
+        .bubbles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .bubbles .bubble {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(127, 247, 211, 0.5);
+            animation: bubbleUp linear infinite;
+        }
+
+        @keyframes bubbleUp {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh);
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Added styles for smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Added hover animation for navigation links */
+        .navigation ul li a:hover {
+            color: #050505;
+            transform: scale(2.2);
+        }
+
+        /* Added loading animation */
+        #loading-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #333;
+            border-top-color: #00e1ff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Added on-scroll animation for parallax section */
+        .parallax-section.in-view .content {
+            opacity: 1;
+        }
+
+        /* Added styles for text box */
+        .text-box {
+            background-image: url('data:image/jpeg;base64,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');
+            background-size: cover;
+            background-position: center;
+            padding: 20px;
+            text-align: center;
+            margin-top: 20px;
+            color: #ffffff; /* Set text color to white for better visibility */
+        }
+
+        .text-box p {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .text-box h2 {
+            margin: 10px 0;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div id="loading-animation">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="parallax-section" style="background-image: url('https://img.freepik.com/free-vector/summer-landscape-with-moon-sky-night_107791-9394.jpg?size=626&ext=jpg&ga=GA1.1.712286084.1686673042&semt=ais');">
+        <div class="bubbles">
+            <div class="bubble" style="top: 10%; left: 20%; animation-duration: 10s;"></div>
+            <div class="bubble" style="top: 40%; left: 70%; animation-duration: 8s;"></div>
+            <div class="bubble" style="top: 60%; left: 40%; animation-duration: 12s;"></div>
+            <div class="bubble" style="top: 80%; left: 90%; animation-duration: 6s;"></div>
+            <!-- Add more bubbles as needed -->
+        </div>
+        <div class="content">
+            <h1>🎶Welcome to our Website</h1>
+            <p>Click on the music to listen to my FAV SONGS!!🎧</p>
+            <p>Scroll down😉</p>
+            <p>&#x27F1;</p>
+            <p>&#x290B;</p>
+            <p>&#x21d3;</p>
+            <p>&#x21df;</p>
+            <p>&#x21e3;</p>
+        </div>
+    </div>
+    
+
+    <div class="navigation">
+        <ul>
+            <li><a href="index.html"><i class="fas fa-music"></i> Music</a></li>
+            <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+            
+        </ul>
+    </div>
+    <div class="text-box">
+        <p>Project by</p>
+        <h2>MANU KARTHIK V AND PAVAN KUMAR K</h2>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelector("#loading-animation").style.display = "none";
+        });
+        window.addEventListener("scroll", function() {
+            var parallaxSection = document.querySelector(".parallax-section");
+            var bounding = parallaxSection.getBoundingClientRect();
+            if (
+                bounding.top >= 0 &&
+                bounding.bottom <= (window.innerHeight || document.documentElement.clientHeight)
+            ) {
+                parallaxSection.classList.add("in-view");
+            } else {
+                parallaxSection.classList.remove("in-view");
+            }
+        });
+    </script>
+</body>
+</html>

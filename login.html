@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comments Page</title>
+</head>
+<body>
+    <h1>Comments Page</h1>
+
+    <form id="commentForm">
+        <textarea id="commentInput" rows="4" cols="50"></textarea>
+        <br>
+        <button type="submit">Submit Comment</button>
+    </form>
+
+    <h2>Comments:</h2>
+    <div id="comments"></div>
+
+    <script>
+        // Retrieve comments from Local Storage and display them
+        window.addEventListener('DOMContentLoaded', function() {
+            var comments = localStorage.getItem('comments');
+            var commentsDiv = document.getElementById('comments');
+
+            if (comments) {
+                commentsDiv.innerHTML = comments;
+            } else {
+                commentsDiv.innerHTML = "<p>No comments yet.</p>";
+            }
+        });
+
+        // Handle form submission
+        document.getElementById('commentForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            var commentInput = document.getElementById('commentInput').value;
+            var commentsDiv = document.getElementById('comments');
+
+            if (commentInput.trim() !== '') {
+                var commentParagraph = document.createElement('p');
+                commentParagraph.textContent = commentInput;
+
+                commentsDiv.appendChild(commentParagraph);
+
+                // Save comments to Local Storage
+                var comments = commentsDiv.innerHTML;
+                localStorage.setItem('comments', comments);
+
+                // Clear the comment input
+                document.getElementById('commentInput').value = '';
+            }
+        });
+    </script>
+</body>
+</html>

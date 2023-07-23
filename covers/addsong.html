@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Song Management</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="song-management-container">
+        <h1>Song Management</h1>
+
+        <div id="song-list">
+            <!-- Song list will be dynamically populated based on the data retrieved from the server -->
+        </div>
+
+        <h2>Add Song</h2>
+        <form id="add-song-form">
+            <div class="form-group">
+                <label for="song-name">Song Name:</label>
+                <input type="text" id="song-name" name="song-name" required>
+            </div>
+            <div class="form-group">
+                <label for="artist">Artist:</label>
+                <input type="text" id="artist" name="artist" required>
+            </div>
+            <div class="song-management">
+                <h2>Add Song</h2>
+                <div class="input-field">
+                    <label for="songName">Song Name:</label>
+                    <input type="text" id="songName">
+                </div>
+                <div class="input-field">
+                    <label for="artist">Artist:</label>
+                    <input type="text" id="artist">
+                </div>
+                <button onclick="addSong()">Add</button>
+            </div>
+            
+            <div class="song-list" id="song-list">
+                <!-- Existing songs will be dynamically added here -->
+            </div>
+            <button type="submit">Add Song</button>
+        </form>
+
+        <h2>Delete Song</h2>
+        <form id="delete-song-form">
+            <div class="form-group">
+                <label for="song-id">Song ID:</label>
+                <input type="text" id="song-id" name="song-id" required>
+            </div>
+            <button type="submit">Delete Song</button>
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Fetch and display the song list from the server
+            function fetchSongList() {
+                // Perform an AJAX request to retrieve the song list from the server
+                // You would need to implement this logic on the server-side
+                // and return the song data as JSON
+
+                // Example code to simulate fetching the song list
+                var songList = [
+                    { id: 1, name: "Song 1", artist: "Artist 1" },
+                    { id: 2, name: "Song 2", artist: "Artist 2" },
+                    { id: 3, name: "Song 3", artist: "Artist 3" }
+                ];
+
+                // Clear the existing song list
+                $('#song-list').empty();
+
+                // Display each song in the song list
+                songList.forEach(function(song) {
+                    var songItem = $('<div>').addClass('song-item');
+                    songItem.append('<span class="song-id">' + song.id + '</span>');
+                    songItem.append('<span class="song-name">' + song.name + '</span>');
+                    songItem.append('<span class="song-artist">' + song.artist + '</span>');
+                    $('#song-list').append(songItem);
+                });
+            }
+
+            // Submit add song form
+            $('#add-song-form').submit(function(event) {
+                event.preventDefault();
+                var songName = $('#song-name').val();
+                var artist = $('#artist').val();
+
+                // Perform an AJAX request to add the song on the server
+                // You would need to implement this logic on the server-side
+                // and update the song list accordingly
+
+                // Example code to simulate adding the song
+                var newSong = { id: 4, name: songName, artist: artist };
+                // Assuming the server responds with the updated song list
+                var updatedSongList = [
+                    { id: 1, name: "Song 1", artist: "Artist 1" },
+                    { id: 2, name: "Song 2", artist: "Artist 2" },
+                    { id: 3, name: "Song 3", artist: "Artist 3" },
+                    newSong
+                ];
+                // Update the song list on the page
+                $('#song-list').empty();
+                updatedSongList.forEach(function(song) {
+                    var songItem = $('<div>').addClass('song-item');
+                    songItem.append('<span class="song-id">' + song.id + '</span>');
+                    songItem.append('<span class="song-name">' + song.name + '</span>');
+                    songItem.append('<span class="song-artist">' + song.artist + '</span>');
+                    $('#song-list').append(songItem);
+                });
+
+                // Clear the add song form
+                $('#song-name').val('');
+                $('#artist').val('');
+            });
+
+            // Submit delete song form
+            $('#delete-song-form').submit(function(event) {
+                event.preventDefault();
+                var songId = $('#song-id').val();
+
+                // Perform an AJAX request to delete the song on the server
+                // You would need to implement this logic on the server-side
+                // and update the song list accordingly
+
+                // Example code to simulate deleting the song
+                // Assuming the server responds with the updated song list
+                var updatedSongList = [
+                    { id: 1, name: "Song 1", artist: "Artist 1" },
+                    { id: 3, name: "Song 3", artist: "Artist 3" }
+                ];
+                // Update the song list on the page
+                $('#song-list').empty();
+                updatedSongList.forEach(function(song) {
+                    var songItem = $('<div>').addClass('song-item');
+                    songItem.append('<span class="song-id">' + song.id + '</span>');
+                    songItem.append('<span class="song-name">' + song.name + '</span>');
+                    songItem.append('<span class="song-artist">' + song.artist + '</span>');
+                    $('#song-list').append(songItem);
+                });
+
+                // Clear the delete song form
+                $('#song-id').val('');
+            });
+
+            // Fetch the initial song list
+            fetchSongList();
+        });
+    </script>
+</body>
+</html>
